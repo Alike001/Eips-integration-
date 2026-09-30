@@ -1,9 +1,60 @@
-import { useEffect, useState } from "react";
-import Eip6963 from "./Eip6963";
+import ConnectButton from "./components/ConnectButton";
+import { useWalletConnection } from "./hooks/useWalletConnection";
 
 function App() {
-  const [account, setAccount] = useState("");
-  const [chainId, setChainId] = useState(0);
+  const { account, chainId, balance, isWrongChain, getBalance } = useWalletConnection();
+
+
+  return (
+    <div>
+      <h1 style={{ margin: "20px" }}>EIP 1193</h1>
+      {account && (
+        <>
+          <p>Account: {account}</p>
+        </>
+      )}
+      {chainId && (
+        <>
+          <p>Chainid: {chainId}</p>
+        </>
+      )}
+
+      {balance && (
+        <>
+          <p>Balance: {balance}</p>
+        </>
+      )}
+
+
+      {isWrongChain && (
+        <p style={{ color: "red", fontWeight: "bold" }}>
+          ⚠ Unsupported network. Please switch to Sepolia or Base Sepolia.
+        </p>
+      )}
+
+      <ConnectButton />
+
+      {account && (
+        <button onClick={getBalance} style={{ marginLeft: "10px" }}>
+          Refresh Balance
+        </button>
+      )}
+      
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+// import { useEffect, useState } from "react";
+//import Eip6963 from "./Eip6963";
+
+/*function App() {
+  //const [account, setAccount] = useState("");
+  //const [chainId, setChainId] = useState(0);
 
   async function setUp() {
     const accounts = await window.ethereum.request({
@@ -36,13 +87,12 @@ function App() {
       setChainId(parseInt(chainId, 16));
     });
 
-    /*
       window.ethereum.on("disconnect", () => {
       console.log("Disconnected!!");
       setAccount("");
       setChainId(0);
     }); 
-    */
+
 
     
   }
@@ -62,4 +112,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; */
